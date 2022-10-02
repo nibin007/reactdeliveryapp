@@ -46,7 +46,7 @@ const logout=()=>{
 }
 
   return (
-    <header className='fixed  z-50 w-screen  p-3 px-4 md:p-6 md:px-16'>
+    <header className='fixed  z-50 w-screen  p-3 px-4 md:p-6 md:px-14 bg-primary '>
     {/* {desktop} */}
     <div className='hidden md:flex w-full h-full p-4 items-center justify-between'>
       <div className='flex  items-center gap-2'>
@@ -79,7 +79,7 @@ const logout=()=>{
           {
            user && user.email==='nibin98prasad@gmail.com' && (
            <Link to={"/createItem"}>
-             <p className='px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor textbase' >NewItem <MdAdd/> </p>
+             <p className='px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor textbase' onClick={()=>{setIsMenu(false)}} >NewItem <MdAdd/> </p>
              </Link>
            )
           }
@@ -125,10 +125,10 @@ const logout=()=>{
 
           }
            <ul className='flex flex-col   ' >
-        <li className='px-4 py-2 text-base text-textcolor hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor textbase' >Home</li>
-        <li className='px-4 py-2 text-base text-textcolor hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor textbase'>Menu</li>
-        <li className='px-4 py-2 text-base text-textcolor hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor textbase'>About us</li>
-        <li className='px-4 py-2 text-base text-textcolor hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor textbase'>Service</li>
+        <li className='px-4 py-2 text-base text-textcolor hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor textbase' onClick={()=>{setIsMenu(false)}} > Home</li>
+        <li className='px-4 py-2 text-base text-textcolor hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor textbase'onClick={()=>{setIsMenu(false)}} >Menu</li>
+        <li className='px-4 py-2 text-base text-textcolor hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor textbase' onClick={()=>{setIsMenu(false)}}>About us</li>
+        <li className='px-4 py-2 text-base text-textcolor hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor textbase'onClick={()=>{setIsMenu(false)}} >Service </li>
       </ul>
            <p className='px-4 py-2 flex items-center gap-4 cursor-pointer hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor textbase' onClick={logout}> Logout <MdLogout/> </p>
           
