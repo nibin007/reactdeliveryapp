@@ -115,7 +115,7 @@ function CreateContainer() {
            }
       }
       catch(error){
-        console.log(error)
+        
         setField(true);
         setMsg('error while uploading')
      

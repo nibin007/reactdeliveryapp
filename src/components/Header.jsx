@@ -15,12 +15,21 @@ import { actionType } from '../context/reducer';
 function Header() {
     const firebaseAuth=getAuth(app);
     const provider=new GoogleAuthProvider();
-    const[{user},dispach]=useStateValue()
+    const[{user,cartShow,cartItems},dispach]=useStateValue()
 
    const[isMenu,setIsMenu]=useState(false)
 
 
-    const login=async()=>{
+
+
+const showCart=()=>{
+  dispach({
+    type:actionType.SET_CART_SHOW,
+    cartShow:!cartShow
+  })
+}
+
+   const login=async()=>{
 
        if(!user){
         const {user :{refreshToken,providerData}}=await signInWithPopup(firebaseAuth,provider)
@@ -62,12 +71,14 @@ const logout=()=>{
         <li className='text-base text-textcolor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer'>About us</li>
         <li className='text-base text-textcolor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer'>Service</li>
       </ul>
-        <div className='relative flex items-center justify-center'>
+        <div onClick={showCart} className='relative flex items-center justify-center'>
           <BsBasket3Fill className='text-textColor text-2xl cursor-pointer w-4'/>
-          <div className='absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center'>
-            <p className='text-xs text-white font-semibold'>2</p>
+          
+          {cartItems && cartItems.length>0 && (<div className='absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center'>
+            <p className='text-xs text-white font-semibold'>{cartItems.length}</p>
 
           </div>
+ )}
  
         </div>
 
@@ -96,13 +107,13 @@ const logout=()=>{
   
 
   <div className='flex items-center justify-between md:hidden w-full h-full'>
-  <div className='relative flex items-center justify-center'>
+  <div className='relative flex items-center justify-center' onClick={showCart}>
           <BsBasket3Fill className='text-textColor text-2xl cursor-pointer w-4'/>
-          <div className='absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center'>
-            <p className='text-xs text-white font-semibold'>2</p>
+          {cartItems && cartItems.length>0 && (<div className='absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center'>
+            <p className='text-xs text-white font-semibold'>{cartItems.length}</p>
 
           </div>
- 
+ )}
         </div>
   <Link className='flex items-center' to={'/'}>
       <img src={Logo} alt="logo" className='w-8 object-cover' />
