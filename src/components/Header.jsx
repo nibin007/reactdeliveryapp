@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {motion} from 'framer-motion'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from '../firebase.config';
-
+import {  checkUser,SaveCartitem ,getCart} from '../utils/firebaseFunction'
 import Logo from "../img/logo.png"
 import Avatar from '../img/avatar.png'
 import {BsBasket3Fill} from 'react-icons/bs'
@@ -10,12 +10,13 @@ import {MdAdd,MdLogout} from 'react-icons/md'
 import {Link} from 'react-router-dom'
 import { useStateValue } from '../context/StateProvider';
 import { actionType } from '../context/reducer';
+import { getByPlaceholderText } from '@testing-library/react';
 
 
 function Header() {
     const firebaseAuth=getAuth(app);
     const provider=new GoogleAuthProvider();
-    const[{user,cartShow,cartItems},dispach]=useStateValue()
+    const[{user,cartShow,cartItems},dispatch]=useStateValue()
 
    const[isMenu,setIsMenu]=useState(false)
 
@@ -23,7 +24,7 @@ function Header() {
 
 
 const showCart=()=>{
-  dispach({
+  dispatch({
     type:actionType.SET_CART_SHOW,
     cartShow:!cartShow
   })
@@ -32,12 +33,32 @@ const showCart=()=>{
    const login=async()=>{
 
        if(!user){
+        
         const {user :{refreshToken,providerData}}=await signInWithPopup(firebaseAuth,provider)
-        dispach({
-         type:actionType.SET_USER,
-         user:providerData[0]
-        })
-        localStorage.setItem('user',JSON.stringify(providerData[0]))
+        dispatch({
+          type:actionType.SET_USER,
+          user:providerData[0]
+         })
+        const datacheck=  await checkUser(providerData[0]) 
+        console.log(datacheck[0].uid)
+        const cartdetails=await getCart(datacheck[0].uid)
+       console.log(cartdetails.cartItems)
+         dispatch({
+          type:actionType.SET_CARTITEMS,
+          cartItems:cartdetails.cartItems
+         })
+
+        // console.log(datacheck[0])
+        
+                  
+        // firebaseAuth.onAuthStateChanged((cred)=>{
+        //     cred.getIdToken().then((token)=>{
+        //       console.log(token)
+        //     })
+        //   })
+        
+     
+        localStorage.setItem('user',JSON.stringify(datacheck[0]))
        }
        else{
         setIsMenu(!isMenu)
@@ -45,12 +66,19 @@ const showCart=()=>{
 
    
     }
-const logout=()=>{
+const logout=async()=>{
   setIsMenu(false)
+
   localStorage.clear()
-  dispach({
+   SaveCartitem(cartItems,user.uid,)
+   //console.log(datacheck2)
+  dispatch({
     type:actionType.SET_USER,
     user:null
+  })
+  dispatch({
+    type:actionType.SET_CARTITEMS,
+    cartItems:[]
   })
 }
 

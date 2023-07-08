@@ -2,6 +2,7 @@ import {getApp,getApps,initializeApp} from 'firebase/app'
 import {getFirestore} from 'firebase/firestore'
 import {getStorage} from 'firebase/storage'
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyD2yXE1a8c1hQFzmlNJSlbTxBlo-EnWNXE",
     authDomain: "restaurantapp-30a05.firebaseapp.com",
@@ -12,7 +13,8 @@ const firebaseConfig = {
     appId: "1:170966692674:web:37df8f1c50ebbc01564edb"
   };
 const app=getApps.length>0?getApp() :initializeApp(firebaseConfig)
-const firestore=getFirestore(app)
+const db=getFirestore(app)
+//const db2=firebase.firestore()
 const storage=getStorage(app)
 
-export {app,firestore,storage};
+export {app,db,storage};
